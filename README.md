@@ -1,6 +1,6 @@
-Introduction of fils:  
-                      dict.py:main program
+#Introduction#
+<big>dict.py</big>: ---main program
 
-                      dict: save the dictionary data
+<big>dict</big>:---save the dictionary data
 
-                      wordlist:all the words of English
+<big>wordlist</big>:---all the words of English
