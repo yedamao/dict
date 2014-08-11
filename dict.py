@@ -5,7 +5,7 @@ import sys
 
 def checkWordList(word):
     flag = None
-    for line in open('wordlist'):
+    for line in open('/home/dave/dict/wordlist'):
         if line.strip() == word:
             flag = True
     if flag:
@@ -19,7 +19,7 @@ def checkWordList(word):
 def searchWord(word):
     flag = None
     text = None
-    for line in open('dict'):
+    for line in open('/home/dave/dict/dict'):
         if line.split(':')[0] == word:
             text = line
             flag = True
@@ -35,15 +35,15 @@ def searchWord(word):
 
 
 def addWord(word):
-    list = ['英音', '美音', 'vt.','vi.', 'adj.', 'adv.', 'n.', 'other']
-    print(word)
+    list = ['英音', '美音', 'vt.','vi.', 'adj.', 'adv.', 'n.', 'other. ']
+    print(''+word)
     content = str() 
     for _ in list:
         text = input(_ )
         if text:
             content += ':' + _ + text
     line = word + content
-    fout = open('dict', 'a', encoding='utf8')
+    fout = open('/home/dave/dict/dict', 'a', encoding='utf8')
     fout.write(line+'\n')
     fout.close()
     print('Add successfully!')
