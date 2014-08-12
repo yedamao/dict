@@ -9,9 +9,11 @@ def checkWordList(word):
     check the word . if it in wordList .program continue
     """
     flag = None
-    for line in open('/usr/share/dict/american-english'):
-        if line.strip() == word:
-            flag = True
+    with open('/usr/share/dict/american-english') as f:
+        for line in f:
+            if line.strip().lower() == word:
+                # convert the word in list to lowercase
+                flag = True
     if flag:
         return word
     else:  # else the program exit
@@ -24,15 +26,16 @@ def checkWordList(word):
 def searchWord(word):
     flag = None
     text = None
-    for line in open('/home/dave/dict/dict'):
-        if line.split(':')[0] == word:
-            text = line
-            flag = True
+    with open('/home/dave/dict/dict') as f:
+        for line in f:
+            if line.split(':')[0] == word:
+                text = line
+                flag = True
     if flag:  # if find the word record print it.
         for _ in text.split(':'):
             print(_)
     else:     # else interactive ask user wheather add the word
-        print('(#_#): {:-^8} not in list'.format(word))
+        print('(#_#): {:-^8} not in my dictionary!'.format(word))
         print(' ')
         yes = {'y', 'yes'}
         if input('add {}. y/n: '.format(word)) in yes:
@@ -51,9 +54,8 @@ def addWord(word):
         if text:
             content += ':' + _ + text
     line = word + content
-    fout = open('/home/dave/dict/dict', 'a', encoding='utf8')
-    fout.write(line+'\n')
-    fout.close()
+    with open('/home/dave/dict/dict', 'a', encoding='utf8') as f:
+        f.write(line+'\n')
     os.system('sort /home/dave/dict/dict > /home/dave/dict/dict.tmp')
     os.system('mv /home/dave/dict/dict.tmp /home/dave/dict/dict')
     print('Add successfully!')
@@ -73,6 +75,7 @@ def countWords():
 
 def main():
     for word in words:
+        word = word.lower()  # all input convert to lowercase
         checkWordList(word)
         searchWord(word)
 
