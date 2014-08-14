@@ -20,9 +20,9 @@ def checkWordList(word):
     return flag
 
 
-def searchWord(word):
+def searchDictList(word):
     """
-    search wordlist.
+    search dictList.
     if not found return None
     else return the found line
     """
@@ -36,7 +36,7 @@ def searchWord(word):
 
 def sortList(dir=DICT_DIR):
     """
-    sort the dictlist default value is DICT_DIR
+    sort the dictList default value is DICT_DIR
     and remove the space
     """
     with open(DICT_DIR) as f:
@@ -54,7 +54,7 @@ def addWord(word):
     print(''+word)
     content = str()
     for _ in list:
-        text = input(_)
+        text = input(_).strip()
         if text:
             content += ':' + _ + text
     line = word + content
@@ -69,14 +69,25 @@ def countWords():
     traversal
     """
     nu = 0
-    for line in open('/home/dave/dict/dict'):
+    for line in open(DICT_DIR):
         nu += 1
     print()
     print('(^_^): already have {} words!'.format(nu))
     print()
 
 
+def modifyWord(word):
+    if checkWordList(word):
+        print('{:-^8}'.format(word))
+
+
+def deleteWord(word):
+    print('{:-^8}'.format(word))
+
+
 def main():
+    if not words:  # if wordlist is None exit
+        sys.exit('(~_~):no word to dict...!')
     for word in words:
         word = word.lower()  # all input convert to lowercase
         """
@@ -92,7 +103,7 @@ def main():
         """
         search wordlist
         """
-        text = searchWord(word)
+        text = searchDictList(word)
         if text:  # if find the word record print it.
             for _ in text.split(':'):
                 print(_)
@@ -105,12 +116,24 @@ def main():
 
 
 if __name__ == "__main__":
+    words = None
+    options = {'--count', '-m', '-r'}
     if len(sys.argv) == 1:
         print('(*_*)Usage:{} [--options] [word1] [word2] ...'
               .format(sys.argv[0]))
         sys.exit()
-    elif sys.argv[1] == '--count':
-        countWords()
     else:
-        words = sys.argv[1:]
+        cmd = sys.argv[1:]
+    if cmd[0] == '--count':
+        countWords()
+    elif cmd[0] == '-m':
+        words = cmd[1:]
+        for word in words:
+            modifyWord(word)
+    elif cmd[0] == '-d':
+        words = sys.argv[2:]
+        for word in words:
+            deleteWord(word)
+    else:
+        words = cmd
         main()
