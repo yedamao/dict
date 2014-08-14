@@ -1,45 +1,49 @@
 #!/usr/bin/env python3
 
 import sys
-import os
+
+
+DICT_DIR = '/home/dave/dict/dict'
+WORD_LIST_DIR = '/usr/share/dict/american-english'
 
 
 def checkWordList(word):
     """
-    check the word . if it in wordList .program continue
+    check wordlist if word in wordlist return Ture
     """
     flag = None
-    with open('/usr/share/dict/american-english') as f:
+    with open(WORD_LIST_DIR) as f:
         for line in f:
             if line.strip().lower() == word:
                 # convert the word in list to lowercase
                 flag = True
-    if flag:
-        return word
-    else:  # else the program exit
-        print()
-        print("(~_~): Are you sure {:-^8} is a word?".format(word))
-        print()
-        sys.exit()
+    return flag
 
 
 def searchWord(word):
-    flag = None
+    """
+    search wordlist.
+    if not found return None
+    else return the found line
+    """
     text = None
-    with open('/home/dave/dict/dict') as f:
+    with open(DICT_DIR) as f:
         for line in f:
             if line.split(':')[0] == word:
                 text = line
-                flag = True
-    if flag:  # if find the word record print it.
-        for _ in text.split(':'):
-            print(_)
-    else:     # else interactive ask user wheather add the word
-        print('(#_#): {:-^8} not in my dictionary!'.format(word))
-        print(' ')
-        yes = {'y', 'yes'}
-        if input('add {}. y/n: '.format(word)) in yes:
-            addWord(word)
+    return text
+
+
+def sortList(dir=DICT_DIR):
+    """
+    sort the dictlist default value is DICT_DIR
+    and remove the space
+    """
+    with open(DICT_DIR) as f:
+        lines = [line for line in f if line.strip()]  # remove space
+        lines.sort()
+    with open(DICT_DIR, 'w') as f:
+        f.writelines(lines)
 
 
 def addWord(word):
@@ -54,10 +58,9 @@ def addWord(word):
         if text:
             content += ':' + _ + text
     line = word + content
-    with open('/home/dave/dict/dict', 'a', encoding='utf8') as f:
+    with open(DICT_DIR, 'a', encoding='utf8') as f:
         f.write(line+'\n')
-    os.system('sort /home/dave/dict/dict > /home/dave/dict/dict.tmp')
-    os.system('mv /home/dave/dict/dict.tmp /home/dave/dict/dict')
+    sortList()  # call sortList function
     print('Add successfully!')
 
 
@@ -76,8 +79,30 @@ def countWords():
 def main():
     for word in words:
         word = word.lower()  # all input convert to lowercase
-        checkWordList(word)
-        searchWord(word)
+        """
+        if not in wordlist sys.exit()
+        """
+        flag = checkWordList(word)
+        if not flag:
+            print()
+            print("(~_~): Are you sure {:-^8} is a word?".format(word))
+            print()
+            sys.exit()
+
+        """
+        search wordlist
+        """
+        text = searchWord(word)
+        if text:  # if find the word record print it.
+            for _ in text.split(':'):
+                print(_)
+        else:     # else interactive ask user wheather add the word
+            print('(#_#): {:-^8} not in my dictionary!'.format(word))
+            print(' ')
+            yes = {'y', 'yes'}
+            if input('add {}. y/n: '.format(word)) in yes:
+                addWord(word)
+
 
 if __name__ == "__main__":
     if len(sys.argv) == 1:
