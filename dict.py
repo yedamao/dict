@@ -20,9 +20,9 @@ def checkWordList(word):
     return flag
 
 
-def searchWord(word):
+def searchDictList(word):
     """
-    search wordlist.
+    search dictList.
     if not found return None
     else return the found line
     """
@@ -36,7 +36,7 @@ def searchWord(word):
 
 def sortList(dir=DICT_DIR):
     """
-    sort the dictlist default value is DICT_DIR
+    sort the dictList default value is DICT_DIR
     and remove the space
     """
     with open(DICT_DIR) as f:
@@ -46,7 +46,7 @@ def sortList(dir=DICT_DIR):
         f.writelines(lines)
 
 
-def addWord(word):
+def getWord(word):
     """
     add the user input
     """
@@ -54,10 +54,14 @@ def addWord(word):
     print(''+word)
     content = str()
     for _ in list:
-        text = input(_)
+        text = input(_).strip()
         if text:
             content += ':' + _ + text
     line = word + content
+    return line
+
+
+def addWord(line):
     with open(DICT_DIR, 'a', encoding='utf8') as f:
         f.write(line+'\n')
     sortList()  # call sortList function
@@ -69,14 +73,58 @@ def countWords():
     traversal
     """
     nu = 0
-    for line in open('/home/dave/dict/dict'):
+    for line in open(DICT_DIR):
         nu += 1
     print()
     print('(^_^): already have {} words!'.format(nu))
     print()
 
 
+def modifyWord(word):
+    if checkWordList(word) and searchDictList(word):
+        pass
+    else:
+        print("\n(~_~): Are you sure {0:-^8} is a word ".format(word))
+        print("or {0:-^8} already in dict list".format(word))
+        sys.exit()
+    if input('\nAre you sure to modify {}?(yes/no):\n'.format(word)) == 'yes':
+        with open(DICT_DIR) as f:
+            old = f.readlines()
+        newLine = getWord(word)
+        for no in range(len(old)):
+            if old[no].split(':')[0] == word:
+                old[no] = newLine + '\n'
+        with open(DICT_DIR, 'w') as f:
+            f.writelines(old)
+        print('Add successfully!')
+
+
+def deleteWord(word):
+    if checkWordList(word) and searchDictList(word):
+        pass
+    else:
+        print("\n(~_~): Are you sure {0:-^8} is a word ".format(word))
+        print("or {0:-^8} already in dict list".format(word))
+        sys.exit()
+    if input('\nAre you sure to delete {}?(yes/no):\n'.format(word)) == 'yes':
+        with open(DICT_DIR) as f:
+            old = f.readlines()
+        for no in range(len(old)):
+            if old[no].split(':')[0] == word:
+                old[no] = '\n'
+        with open(DICT_DIR, 'w') as f:
+            f.writelines(old)
+        print('Delete successfully!')
+
+
+def printWord(line):
+    for _ in line.split(':'):
+        print(_)
+
+
 def main():
+    if not words:  # if wordlist is None exit
+        sys.exit('(~_~):no word to dict...!')
     for word in words:
         word = word.lower()  # all input convert to lowercase
         """
@@ -92,25 +140,37 @@ def main():
         """
         search wordlist
         """
-        text = searchWord(word)
-        if text:  # if find the word record print it.
-            for _ in text.split(':'):
-                print(_)
+        line = searchDictList(word)
+        if line:  # if find the word record print it.
+            printWord(line)
         else:     # else interactive ask user wheather add the word
             print('(#_#): {:-^8} not in my dictionary!'.format(word))
             print(' ')
             yes = {'y', 'yes'}
             if input('add {}. y/n: '.format(word)) in yes:
-                addWord(word)
+                line = getWord(word)
+                addWord(line)
 
 
 if __name__ == "__main__":
+    words = None
+    options = {'--count', '-m', '-r'}
     if len(sys.argv) == 1:
         print('(*_*)Usage:{} [--options] [word1] [word2] ...'
               .format(sys.argv[0]))
         sys.exit()
-    elif sys.argv[1] == '--count':
-        countWords()
     else:
-        words = sys.argv[1:]
+        cmd = sys.argv[1:]
+    if cmd[0] == '--count':
+        countWords()
+    elif cmd[0] == '-m':
+        words = cmd[1:]
+        for word in words:
+            modifyWord(word)
+    elif cmd[0] == '-d':
+        words = sys.argv[2:]
+        for word in words:
+            deleteWord(word)
+    else:
+        words = cmd
         main()
