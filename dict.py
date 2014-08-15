@@ -46,7 +46,7 @@ def sortList(dir=DICT_DIR):
         f.writelines(lines)
 
 
-def addWord(word):
+def getWord(word):
     """
     add the user input
     """
@@ -58,6 +58,10 @@ def addWord(word):
         if text:
             content += ':' + _ + text
     line = word + content
+    return line
+
+
+def addWord(line):
     with open(DICT_DIR, 'a', encoding='utf8') as f:
         f.write(line+'\n')
     sortList()  # call sortList function
@@ -77,12 +81,45 @@ def countWords():
 
 
 def modifyWord(word):
-    if checkWordList(word):
-        print('{:-^8}'.format(word))
+    if checkWordList(word) and searchDictList(word):
+        pass
+    else:
+        print("\n(~_~): Are you sure {0:-^8} is a word ".format(word))
+        print("or {0:-^8} already in dict list".format(word))
+        sys.exit()
+    if input('\nAre you sure to modify {}?(yes/no):\n'.format(word)) == 'yes':
+        with open(DICT_DIR) as f:
+            old = f.readlines()
+        newLine = getWord(word)
+        for no in range(len(old)):
+            if old[no].split(':')[0] == word:
+                old[no] = newLine + '\n'
+        with open(DICT_DIR, 'w') as f:
+            f.writelines(old)
+        print('Add successfully!')
 
 
 def deleteWord(word):
-    print('{:-^8}'.format(word))
+    if checkWordList(word) and searchDictList(word):
+        pass
+    else:
+        print("\n(~_~): Are you sure {0:-^8} is a word ".format(word))
+        print("or {0:-^8} already in dict list".format(word))
+        sys.exit()
+    if input('\nAre you sure to delete {}?(yes/no):\n'.format(word)) == 'yes':
+        with open(DICT_DIR) as f:
+            old = f.readlines()
+        for no in range(len(old)):
+            if old[no].split(':')[0] == word:
+                old[no] = '\n'
+        with open(DICT_DIR, 'w') as f:
+            f.writelines(old)
+        print('Delete successfully!')
+
+
+def printWord(line):
+    for _ in line.split(':'):
+        print(_)
 
 
 def main():
@@ -103,16 +140,16 @@ def main():
         """
         search wordlist
         """
-        text = searchDictList(word)
-        if text:  # if find the word record print it.
-            for _ in text.split(':'):
-                print(_)
+        line = searchDictList(word)
+        if line:  # if find the word record print it.
+            printWord(line)
         else:     # else interactive ask user wheather add the word
             print('(#_#): {:-^8} not in my dictionary!'.format(word))
             print(' ')
             yes = {'y', 'yes'}
             if input('add {}. y/n: '.format(word)) in yes:
-                addWord(word)
+                line = getWord(word)
+                addWord(line)
 
 
 if __name__ == "__main__":
