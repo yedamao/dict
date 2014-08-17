@@ -27,6 +27,10 @@ a famous Open-source dictionary ,together.
 #Usage#
 
 dict word
+___________________| search a word. if not in dict file, you can add it.
 dict -m word
+___________________| -m : you can modify a word.
 dict -d word
+___________________| -d : you can delete a word.
 dict --count 
+___________________| --count : it will tell you already have how many words.
