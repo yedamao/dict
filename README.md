@@ -23,3 +23,10 @@ a famous Open-source dictionary ,together.
 
 └── wordlist        | a word list, but now we use the wordlist in system file
 
+
+#Usage#
+
+dict word
+dict -m word
+dict -d word
+dict --count 
