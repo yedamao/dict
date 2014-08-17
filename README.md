@@ -10,6 +10,7 @@ a famous Open-source dictionary ,together.
 #Tree#
 
 .
+
 ├── dict            | dictoinary file
 
 ├── dict.py         | main program
