@@ -10,10 +10,15 @@ a famous Open-source dictionary ,together.
 #Tree#
 
 .
-├── dict            | dictoinary file '\n'
+├── dict            | dictoinary file
+
 ├── dict.py         | main program
+
 ├── happy           | some emote
+
 ├── README.md       |
+
 ├── set             | set file
+
 └── wordlist        | a word list, but now we use the wordlist in system file
 
