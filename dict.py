@@ -3,7 +3,7 @@
 import sys
 
 
-DICT_DIR = '$HOME/dict/dict'
+DICT_DIR = '/home/dave/dict/dict'
 WORD_LIST_DIR = '/usr/share/dict/american-english'
 
 
