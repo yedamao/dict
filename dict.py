@@ -87,7 +87,7 @@ def modifyWord(word):
         print("\n(~_~): Are you sure {0:-^8} is a word ".format(word))
         print("or {0:-^8} already in dict list".format(word))
         sys.exit()
-    if input('\nAre you sure to modify {}?(yes/no):\n'.format(word)) == 'yes':
+    if input('\nAre you sure to modify {}?(yes/no):'.format(word)) == 'yes':
         with open(DICT_DIR) as f:
             old = f.readlines()
         newLine = getWord(word)
