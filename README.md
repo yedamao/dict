@@ -42,3 +42,6 @@ dict --count
 
 ___________________| --count : it will tell you already have how many words.
 
+dict -all modify 
+
+___________________| --all  :display all words
