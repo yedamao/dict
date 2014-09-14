@@ -3,7 +3,7 @@
 import sys
 
 
-DICT_DIR = '/home/dave/dict/dict'
+DICT_DIR = '/home/dave/dict/dictionary'
 WORD_LIST_DIR = '/usr/share/dict/american-english'
 
 
@@ -29,7 +29,7 @@ def searchDictList(word):
     text = None
     with open(DICT_DIR) as f:
         for line in f:
-            if line.split(':')[0] == word:
+            if line.split(':')[0].lower() == word:
                 text = line
     return text
 
