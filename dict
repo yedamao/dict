@@ -3,7 +3,8 @@
 import cmd
 import re
 
-DICT_DIR = '/home/dave/dict/dictionary'
+#DICT_DIR = '/home/dave/dict/dictionary'
+DICT_DIR = '/home/dave/new'
 
 with open('wordlist') as f:
     content = f.read()
@@ -17,7 +18,7 @@ def searchDictList(word):
     text = None
     with open(DICT_DIR) as f:
         for line in f:
-            if line.split(':')[0].lower() == word:
+            if line.split(':')[0].lower() == word.lower():
                 text = line
     return text
 
@@ -42,6 +43,7 @@ def complete(text):
     return complete
 
 
+
 class HelloWorld(cmd.Cmd):
     def __init__(self):
         cmd.Cmd.__init__(self)
@@ -62,6 +64,15 @@ class HelloWorld(cmd.Cmd):
                 completions = complete(text)
 
         return completions
+
+    def do_count(self, line):
+        nu = 0
+        for line in open(DICT_DIR):
+            nu += 1
+        print()
+        print('(^_^): already have {} words!'.format(nu))
+        print()
+
 
     def help_dict(self):
         print ("dict [word]")
