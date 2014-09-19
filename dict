@@ -3,8 +3,7 @@
 import cmd
 import re
 
-#DICT_DIR = '/home/dave/dict/dictionary'
-DICT_DIR = '/home/dave/new'
+DICT_DIR = '/home/dave/dict/dictionary'
 
 with open('wordlist') as f:
     content = f.read()
