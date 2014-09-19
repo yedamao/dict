@@ -11,15 +11,11 @@ a famous Open-source dictionary ,together.
 
 .
 
-├── dict            | dictoinary file
+├── dictionary            | dictoinary file
 
 ├── dict.py         | main program
 
-├── happy           | some emote
-
 ├── README.md       |
-
-├── set             | set file
 
 └── wordlist        | a word list, but now we use the wordlist in system file
 
@@ -30,14 +26,7 @@ dict word
 
 ___________________| search a word. if not in dict file, you can add it.
 
-dict -m word
 
-___________________| -m : you can modify a word.
+count 
 
-dict -d word
-
-___________________| -d : you can delete a word.
-
-dict --count 
-
-___________________| --count : it will tell you already have how many words.
+___________________|  it will tell you already have how many words.
