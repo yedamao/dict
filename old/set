@@ -1,2 +1,0 @@
-add to your .bashrc
-alias dict='python3 $HOME/dict/dict.py'
