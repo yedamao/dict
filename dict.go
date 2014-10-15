@@ -5,6 +5,7 @@ import (
     "os"
     "log"
     "strings"
+    "bufio"
 )
 
 func checkError(err error) {
@@ -53,9 +54,15 @@ func printWordLine(wordLine string) {
 }
 
 func main() {
-    word := os.Args[1]
+    reader := bufio.NewReader(os.Stdin)
 
-    wordLine := searchWordLine(word)
-
-    printWordLine(wordLine)
+    for {
+        fmt.Print("(OSD1.1):>")
+        line, _ := reader.ReadString('\n')
+        word := strings.Split(line, "\n")[0]
+        fmt.Println(word)
+        wordLine := searchWordLine(word)
+        fmt.Println(wordLine)
+        printWordLine(wordLine)
+    }
 }
