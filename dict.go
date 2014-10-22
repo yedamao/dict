@@ -62,10 +62,10 @@ func main() {
 		line, _ := reader.ReadString('\n')
 		word := strings.Split(line, "\n")[0]
 		wordLine := searchWordLine(word)
-        if wordLine != "" {
-            printWordLine(wordLine)
-        } else {
-            fmt.Println("Oooooooo!")
-        }
+		if wordLine != "" {
+			printWordLine(wordLine)
+		} else {
+			fmt.Println("Oooooooo!")
+		}
 	}
 }
