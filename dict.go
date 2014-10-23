@@ -34,17 +34,33 @@ func readDictionary() []byte {
 }
 
 func searchWordLine(word string) string {
-	data := string(readDictionary())
-	wordLines := strings.Split(data, "\n")
-	var wordLine string
-	for i := 0; i < len(wordLines); i++ {
-		target := strings.Split(wordLines[i], ":")[0]
-		if strings.ToLower(word) == strings.ToLower(target) {
-			wordLine = wordLines[i]
-		}
-	}
-	return wordLine
+    // binary search 
+    data := string(readDictionary())
+    wordLines := strings.Split(data, "\n")
+    low := 0
+    high := len(wordLines)
+    index := -1
+
+    for (low <= high) {
+        h := low + (high - low) / 2
+        target := strings.Split(wordLines[h], ":")[0]
+        if strings.ToLower(target) == strings.ToLower(word) {
+            index = h
+            break
+        } else if strings.ToLower(target) < strings.ToLower(word) {
+            low = h + 1
+        } else {
+            high = h -1
+        }
+    }
+    
+    if index == -1 {
+        return "Oooooooo!"
+    } else {
+        return wordLines[index]
+    }
 }
+
 
 func printWordLine(wordLine string) {
 	for i := 0; i < len(strings.Split(wordLine, ":")); i++ {
