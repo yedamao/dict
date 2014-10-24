@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"strings"
+    spider "github.com/logindaveye/dict/spider"
 )
 
 func checkError(err error) {
@@ -44,7 +45,8 @@ func searchWordLine(word string) string {
 	for low <= high {
 		h := low + (high-low)/2
 		target := strings.Split(wordLines[h], ":")[0]
-		if strings.ToLower(target) == strings.ToLower(word) {
+		// if strings.ToLower(target) == strings.ToLower(word) {
+		if target == word {
 			index = h
 			break
 		} else if strings.ToLower(target) < strings.ToLower(word) {
@@ -55,7 +57,8 @@ func searchWordLine(word string) string {
 	}
 
 	if index == -1 {
-		return "Oooooooo!"
+        spider.Spider(word)
+        return ""
 	} else {
 		return wordLines[index]
 	}
@@ -69,18 +72,29 @@ func printWordLine(wordLine string) {
 }
 
 func main() {
-	reader := bufio.NewReader(os.Stdin)
+    if len(os.Args[:]) > 1 {
+        args := os.Args[1]
+        if args == "--help" {
+            fmt.Println("help")
+        } else {
+            spider.Spider(args)
+        }
+    } else {
+        reader := bufio.NewReader(os.Stdin)
+        
+        fmt.Print("Open Source Dictionary\n")
+        
+        for {
+            fmt.Print("(OSD1.1):>")
+            line, _ := reader.ReadString('\n')
+            word := strings.Split(line, "\n")[0]
+            wordLine := searchWordLine(word)
+            if wordLine != "" {
+                printWordLine(wordLine)
+            } else {
+                fmt.Println("Oooooooo!")
+            }
+        }
 
-	fmt.Print("Open Source Dictionary\n")
-	for {
-		fmt.Print("(OSD1.1):>")
-		line, _ := reader.ReadString('\n')
-		word := strings.Split(line, "\n")[0]
-		wordLine := searchWordLine(word)
-		if wordLine != "" {
-			printWordLine(wordLine)
-		} else {
-			fmt.Println("Oooooooo!")
-		}
-	}
+    }
 }
