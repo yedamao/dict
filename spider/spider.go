@@ -19,7 +19,7 @@ func findWord(content string) string {
 	r_word, _ := regexp.Compile("<span class=\"keyword\">([a-zA-Z]*)</span>")
 
 	word := r_word.FindAllStringSubmatch(string(content), -1)
-    wordLine += addFoods(word)
+	wordLine += addFoods(word)
 
 	r_pronounce, _ := regexp.Compile("<span class=\"phonetic\">(.*)</span>")
 
@@ -31,7 +31,7 @@ func findWord(content string) string {
 	r_meaning, _ := regexp.Compile("<li>(.*)</li>")
 	wordLine += addFoods(r_meaning.FindAllStringSubmatch(string(meaning), -1))
 
-    return wordLine
+	return wordLine
 }
 
 func addFoods(food [][]string) string {
@@ -40,11 +40,11 @@ func addFoods(food [][]string) string {
 		wordLine += food[i][1]
 	}
 
-    return wordLine + ":"
+	return wordLine + ":"
 }
 
 func Spider(word string) string {
-    //return result
+	//return result
 	URL := "http://dict.youdao.com/search?q=" + word + "&keyfrom=dict.index"
 	res, err := http.Get(URL)
 	checkError(err)

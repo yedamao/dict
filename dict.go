@@ -57,7 +57,7 @@ func searchWordLine(word string) string {
 	}
 
 	if index == -1 {
-        return spider.Spider(word) + ":From internet"
+		return spider.Spider(word) + ":From internet"
 	} else {
 		return wordLines[index]
 	}
@@ -71,18 +71,18 @@ func printWordLine(wordLine string) {
 }
 
 func helpHandler(l *goline.GoLine) (bool, error) {
-    fmt.Println("\nhelp!")
-    return false, nil
+	fmt.Println("\nhelp!")
+	return false, nil
 }
 
 func searchWord(word string) {
-    wordLine := searchWordLine(word)
-    if wordLine != "" {
-        fmt.Println()
-        printWordLine(wordLine)
-    } else {
-        fmt.Println("Oooooooo!")
-    }
+	wordLine := searchWordLine(word)
+	if wordLine != "" {
+		fmt.Println()
+		printWordLine(wordLine)
+	} else {
+		fmt.Println("Oooooooo!")
+	}
 }
 
 func main() {
@@ -92,29 +92,29 @@ func main() {
 		if args == "--help" {
 			fmt.Println("help")
 		} else {
-            searchWord(args)
+			searchWord(args)
 		}
 	} else {
 		fmt.Print("Open Source Dictionary\n")
 
-        gl := goline.NewGoLine(goline.StringPrompt("Dict:>"))
+		gl := goline.NewGoLine(goline.StringPrompt("Dict:>"))
 
-        gl.AddHandler('?', helpHandler)
+		gl.AddHandler('?', helpHandler)
 
 		for {
-            line, err := gl.Line()
+			line, err := gl.Line()
 
-            if err != nil {
-                if err == goline.UserTerminatedError {
-                    fmt.Println("\nUser terminated.")
-                    return
-                } else {
-                    panic(err)
-                }
-            }
+			if err != nil {
+				if err == goline.UserTerminatedError {
+					fmt.Println("\nUser terminated.")
+					return
+				} else {
+					panic(err)
+				}
+			}
 
 			word := strings.Split(line, "\n")[0]
-            searchWord(word)
+			searchWord(word)
 		}
 
 	}
