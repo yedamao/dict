@@ -1,7 +1,6 @@
 package spider
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -14,13 +13,13 @@ func checkError(err error) {
 	}
 }
 
-func findWord(content string) {
+func findWord(content string) string {
 	wordLine := ""
 
 	r_word, _ := regexp.Compile("<span class=\"keyword\">([a-zA-Z]*)</span>")
 
 	word := r_word.FindAllStringSubmatch(string(content), -1)
-	wordLine += addFoods(word)
+    wordLine += addFoods(word)
 
 	r_pronounce, _ := regexp.Compile("<span class=\"phonetic\">(.*)</span>")
 
@@ -31,6 +30,8 @@ func findWord(content string) {
 
 	r_meaning, _ := regexp.Compile("<li>(.*)</li>")
 	wordLine += addFoods(r_meaning.FindAllStringSubmatch(string(meaning), -1))
+
+    return wordLine
 }
 
 func addFoods(food [][]string) string {
@@ -39,13 +40,12 @@ func addFoods(food [][]string) string {
 		wordLine += food[i][1]
 	}
 
-	fmt.Println(wordLine)
-	return wordLine
+    return wordLine + ":"
 }
 
-func Spider(word string) {
+func Spider(word string) string {
+    //return result
 	URL := "http://dict.youdao.com/search?q=" + word + "&keyfrom=dict.index"
-	// URL := "http://dict.youdao.com/search?q=go&keyfrom=dict.index"
 	res, err := http.Get(URL)
 	checkError(err)
 
@@ -53,5 +53,5 @@ func Spider(word string) {
 	checkError(err)
 	res.Body.Close()
 
-	findWord(string(robots))
+	return findWord(string(robots))
 }

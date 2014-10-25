@@ -1,9 +1,9 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	spider "github.com/logindaveye/dict/spider"
+	"github.com/nemith/goline"
 	"log"
 	"os"
 	"strings"
@@ -57,8 +57,7 @@ func searchWordLine(word string) string {
 	}
 
 	if index == -1 {
-		spider.Spider(word)
-		return ""
+        return spider.Spider(word) + ":From internet"
 	} else {
 		return wordLines[index]
 	}
@@ -71,29 +70,51 @@ func printWordLine(wordLine string) {
 	fmt.Println("_______________________________")
 }
 
+func helpHandler(l *goline.GoLine) (bool, error) {
+    fmt.Println("\nhelp!")
+    return false, nil
+}
+
+func searchWord(word string) {
+    wordLine := searchWordLine(word)
+    if wordLine != "" {
+        fmt.Println()
+        printWordLine(wordLine)
+    } else {
+        fmt.Println("Oooooooo!")
+    }
+}
+
 func main() {
 	if len(os.Args[:]) > 1 {
 		args := os.Args[1]
+
 		if args == "--help" {
 			fmt.Println("help")
 		} else {
-			spider.Spider(args)
+            searchWord(args)
 		}
 	} else {
-		reader := bufio.NewReader(os.Stdin)
-
 		fmt.Print("Open Source Dictionary\n")
 
+        gl := goline.NewGoLine(goline.StringPrompt("Dict:>"))
+
+        gl.AddHandler('?', helpHandler)
+
 		for {
-			fmt.Print("(OSD1.1):>")
-			line, _ := reader.ReadString('\n')
+            line, err := gl.Line()
+
+            if err != nil {
+                if err == goline.UserTerminatedError {
+                    fmt.Println("\nUser terminated.")
+                    return
+                } else {
+                    panic(err)
+                }
+            }
+
 			word := strings.Split(line, "\n")[0]
-			wordLine := searchWordLine(word)
-			if wordLine != "" {
-				printWordLine(wordLine)
-			} else {
-				fmt.Println("Oooooooo!")
-			}
+            searchWord(word)
 		}
 
 	}
