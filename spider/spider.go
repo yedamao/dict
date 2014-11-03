@@ -37,10 +37,10 @@ func findWord(content string) string {
 func addFoods(food [][]string) string {
 	wordLine := ""
 	for i := 0; i < len(food); i++ {
-		wordLine += food[i][1]
+		wordLine += food[i][1] + ":"
 	}
 
-	return wordLine + ":"
+	return wordLine
 }
 
 func Spider(word string) string {

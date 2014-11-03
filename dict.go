@@ -9,6 +9,8 @@ import (
 	"strings"
 )
 
+const DICTIONARY_PATH string = "/usr/share/dict/dictionary"
+
 func checkError(err error) {
 	if err != nil {
 		log.Fatal(err)
@@ -18,7 +20,7 @@ func checkError(err error) {
 
 func readDictionary() []byte {
 	//open dictionary file
-	file, err := os.Open("dictionary")
+	file, err := os.Open(DICTIONARY_PATH)
 	checkError(err)
 	defer file.Close()
 
@@ -114,7 +116,7 @@ func main() {
 			}
 
 			word := strings.Split(line, "\n")[0]
-			searchWord(word)
+            searchWord(word)
 		}
 
 	}
