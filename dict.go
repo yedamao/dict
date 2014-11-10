@@ -44,7 +44,7 @@ func searchWordLine(word string) string {
 	high := len(wordLines)
 	index := -1
 
-	for low <= high {
+	for low < high { //fix bug low and high can't equal
 		h := low + (high-low)/2
 		target := strings.Split(wordLines[h], ":")[0]
 		// if strings.ToLower(target) == strings.ToLower(word) {

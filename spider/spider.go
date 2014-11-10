@@ -47,7 +47,9 @@ func Spider(word string) string {
 	//return result
 	URL := "http://dict.youdao.com/search?q=" + word + "&keyfrom=dict.index"
 	res, err := http.Get(URL)
-	checkError(err)
+    if err != nil {
+        return ""
+    }
 
 	robots, err := ioutil.ReadAll(res.Body)
 	checkError(err)
