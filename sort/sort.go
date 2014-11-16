@@ -22,10 +22,11 @@ func Insert(insertStr, path string) {
 		outfile.Close()
 		openfile.Close()
 	}()
+    defer openfile.Close()
 
 	reader := bufio.NewReader(openfile)
 	writer := bufio.NewWriter(outfile)
-	// buf := make([]byte, 1024)
+	buf := make([]byte, 1024)
 	for {
 		line, err1 := reader.ReadString('\n')
 		if err1 != nil {
@@ -40,27 +41,18 @@ func Insert(insertStr, path string) {
 			writer.WriteString(line)
 			// write remain all to the file
 			for {
-				// n, err := reader.Read(buf)
-				line, isPrefix, err := reader.ReadLine()
+				n, err := reader.Read(buf)
 				if err != nil {
                     if err != io.EOF {
                         fmt.Println(err)
                         fmt.Println("fuking read error!")
                         os.Exit(1)
                     } else {
+                        writer.Flush()
                         break
                     }
 				}
-                if isPrefix {
-                    fmt.Println("a too long line")
-                }
-				// if n == 0 {
-				// 	fmt.Println("break")
-				// 	break
-				// }
-				// _, err = writer.Write(buf[:n])
-				_, err = writer.Write(line)
-				_, err = writer.WriteString("\n")
+				_, err = writer.Write(buf[:n])
 				if err != nil {
                     fmt.Println(err)
 				}
@@ -69,25 +61,4 @@ func Insert(insertStr, path string) {
 			writer.WriteString(line)
 		}
 	}
-	//data := rw.Read(path)
-	//wordLine := strings.Split(string(data), "\n")
-	/*
-	   var index int = 0
-	   for ; index < len(wordLine); index++ {
-	       if wordLine[index] >= line {
-	           break
-	       }
-	   }
-	   result := make([]string, len(wordLine)+1)
-	   copy(result, wordLine[:index])
-	   copy(result[index+1:], wordLine[index:])
-	   result[index] = line
-
-	   var wordLines string = ""
-	   for _, value := range result {
-	       wordLines += value + "\n"
-	   }
-	*/
-
-	//rw.Write(wordLines, "./test_result.txt")
 }

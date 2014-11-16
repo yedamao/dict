@@ -29,7 +29,8 @@ func (food Foods) PrintAll() {
 
 func (food Foods) WriteAll(path string) {
     //: filt word pronouce meaning
-    if food.Word != "" && food.Pronounce != "" && food.Meaning != "" {
+    // if food.Word != "" && food.Pronounce != "" && food.Meaning != "" {
+    if food.Word != "" && food.Meaning != "" { //modify pronounce is nil also can save
         wordline := food.Word + "#" +food.Pronounce + "#" + food.Meaning
         err := rw.WriteLine(wordline, path)
         if err != nil {

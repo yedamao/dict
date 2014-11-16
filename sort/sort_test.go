@@ -5,6 +5,5 @@ import (
 )
 
 func TestInsert(t *testing.T) {
-	Insert("e_________________________", "./dictionary")
-	Insert("z_________________________", "./dictionary")
+	Insert("z_________________________", "./spider_")
 }

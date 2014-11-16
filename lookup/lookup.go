@@ -6,7 +6,8 @@ import (
     rw "github.com/logindaveye/dict/rw"
 )
 
-const DICTIONARY_PATH string = "/usr/share/dict/dictionary"
+// const DICTIONARY_PATH string = "/usr/share/dict/dictionary"
+const DICTIONARY_PATH string = "/usr/share/dict/spider_word"
 
 func searchWordLine(word string) string {
     //read dictionary file
@@ -18,8 +19,12 @@ func searchWordLine(word string) string {
 	high := len(wordLines)
 	index := -1
 
-	for low < high { //fix bug low and high can't equal
+	for low <= high { //fix bug low and high can't equal
 		h := low + (high-low)/2
+        if h >= len(wordLines) { //if index out of range return -1
+            index = -1
+            break
+        }
 		target := strings.Split(wordLines[h], "#")[0]
 		// if strings.ToLower(target) == strings.ToLower(word) {
 		if target == word {
@@ -35,7 +40,7 @@ func searchWordLine(word string) string {
 
 	if index == -1 {
 		return "not found"
-	} else {
+    } else {
 		return wordLines[index]
 	}
 }
