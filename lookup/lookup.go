@@ -20,7 +20,7 @@ func searchWordLine(word string) string {
 	index := -1
 
 	for low <= high { //fix bug low and high can't equal
-		h := low + (high-low)/2
+		h := (low + high)/2
         if h >= len(wordLines) { //if index out of range return -1
             index = -1
             break
