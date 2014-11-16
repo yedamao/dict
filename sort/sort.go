@@ -22,7 +22,7 @@ func Insert(insertStr, path string) {
 		outfile.Close()
 		openfile.Close()
 	}()
-    defer openfile.Close()
+	defer openfile.Close()
 
 	reader := bufio.NewReader(openfile)
 	writer := bufio.NewWriter(outfile)
@@ -43,18 +43,18 @@ func Insert(insertStr, path string) {
 			for {
 				n, err := reader.Read(buf)
 				if err != nil {
-                    if err != io.EOF {
-                        fmt.Println(err)
-                        fmt.Println("fuking read error!")
-                        os.Exit(1)
-                    } else {
-                        writer.Flush()
-                        break
-                    }
+					if err != io.EOF {
+						fmt.Println(err)
+						fmt.Println("fuking read error!")
+						os.Exit(1)
+					} else {
+						writer.Flush()
+						break
+					}
 				}
 				_, err = writer.Write(buf[:n])
 				if err != nil {
-                    fmt.Println(err)
+					fmt.Println(err)
 				}
 			}
 		} else {
