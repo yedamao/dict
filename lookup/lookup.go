@@ -1,8 +1,8 @@
 package lookup
 
 import (
-	rw "github.com/logindaveye/dict/rw"
-	spider "github.com/logindaveye/dict/spider"
+	rw "github.com/logindave/dict/rw"
+	spider "github.com/logindave/dict/spider"
 	"strings"
 )
 

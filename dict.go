@@ -1,9 +1,9 @@
 package main
 
 import (
-	lookup "github.com/logindaveye/dict/lookup"
-	server "github.com/logindaveye/dict/server"
-	spider "github.com/logindaveye/dict/spider"
+	lookup "github.com/logindave/dict/lookup"
+	server "github.com/logindave/dict/server"
+	spider "github.com/logindave/dict/spider"
 
 	goline "github.com/nemith/goline"
 
