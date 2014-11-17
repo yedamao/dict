@@ -6,11 +6,11 @@ import (
 	"html/template"
 	"net/http"
 
-	lookup "github.com/logindaveye/dict/lookup"
-	spider "github.com/logindaveye/dict/spider"
+	lookup "github.com/logindave/dict/lookup"
+	spider "github.com/logindave/dict/spider"
 )
 
-var tmplPath string = "/home/dave/gocode/src/github.com/logindaveye/dict/server/tmpl/"
+var tmplPath string = "/home/dave/gocode/src/github.com/logindave/dict/server/tmpl/"
 
 func indexPage(w http.ResponseWriter, r *http.Request) {
 	t, _ := template.ParseFiles(tmplPath + "index.html")

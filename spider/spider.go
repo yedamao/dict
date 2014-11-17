@@ -8,7 +8,7 @@ import (
 	"regexp"
 	"strings"
 	// rw "github.com/logindaveye/dict/rw"
-	"github.com/logindaveye/dict/rw"
+	"github.com/logindave/dict/rw"
 )
 
 type Foods struct {
