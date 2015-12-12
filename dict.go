@@ -1,7 +1,8 @@
 package main
 
 import (
-	lookup "github.com/logindave/dict/lookup"
+	hashword "github.com/logindave/dict/hashword"
+	// lookup "github.com/logindave/dict/lookup"
 	server "github.com/logindave/dict/server"
 	spider "github.com/logindave/dict/spider"
 
@@ -11,7 +12,6 @@ import (
 	"fmt"
 	"os"
 )
-
 
 func autoCompletHandler(l *goline.GoLine) (bool, error) {
 	fmt.Println("I can't do that")
@@ -52,8 +52,8 @@ func usage() {
 }
 
 func find(word string) {
-	food := lookup.Lookup(word)
-	if food.Word == "" {
+	food, err := hashword.LookUp(word)
+	if err != nil {
 		food = spider.Spider(word)
 		food.WriteAll("/home/dave/.dictionary")
 		fmt.Println("from internet")
