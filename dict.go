@@ -17,6 +17,7 @@ func autoCompletHandler(l *goline.GoLine) (bool, error) {
 	fmt.Println("I can't do that")
 	return false, nil
 }
+
 func circle() {
 	gl := goline.NewGoLine(goline.StringPrompt("dict:>"))
 	const TAB rune = 9
