@@ -1,14 +1,12 @@
 package main
 
 import (
-	hashword "github.com/logindave/dict/hashword"
-	spider "github.com/logindave/dict/spider"
-
-	goline "github.com/nemith/goline"
-
 	"flag"
 	"fmt"
 	"os"
+
+	spider "github.com/logindave/dict/spider"
+	goline "github.com/nemith/goline"
 )
 
 func autoCompletHandler(l *goline.GoLine) (bool, error) {
@@ -45,12 +43,7 @@ func usage() {
 }
 
 func find(word string) {
-	food, err := hashword.LookUp(word)
-	if err != nil {
-		food = spider.Spider(word)
-		food.WriteAll("/home/dave/.dictionary")
-		fmt.Println("from internet")
-	}
+	food := spider.Spider(word)
 	food.PrintAll()
 }
 
