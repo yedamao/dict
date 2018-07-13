@@ -2,8 +2,6 @@ package main
 
 import (
 	hashword "github.com/logindave/dict/hashword"
-	// lookup "github.com/logindave/dict/lookup"
-	server "github.com/logindave/dict/server"
 	spider "github.com/logindave/dict/spider"
 
 	goline "github.com/nemith/goline"
@@ -38,12 +36,6 @@ func circle() {
 	}
 }
 
-var http string
-
-func init() {
-	flag.StringVar(&http, "http", ":6060", "the address of server")
-}
-
 func usage() {
 	fmt.Fprintf(os.Stderr,
 		"usage: dict \n"+
@@ -72,6 +64,5 @@ func main() {
 		word := os.Args[1]
 		find(word)
 	} else {
-		server.Web(http)
 	}
 }
