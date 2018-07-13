@@ -7,8 +7,6 @@ import (
 	"os"
 	"regexp"
 	"strings"
-	// rw "github.com/logindaveye/dict/rw"
-	"github.com/logindave/dict/rw"
 )
 
 type Foods struct {
@@ -24,20 +22,6 @@ func (food Foods) PrintAll() {
 	}
 	for _, x := range strings.Split(food.Meaning, "|") {
 		fmt.Println(x)
-	}
-}
-
-func (food Foods) WriteAll(path string) {
-	//: filt word pronouce meaning
-	// if food.Word != "" && food.Pronounce != "" && food.Meaning != "" {
-	if food.Word != "" && food.Meaning != "" { //modify pronounce is nil also can save
-		wordline := food.Word + "#" + food.Pronounce + "#" + food.Meaning
-		err := rw.WriteLine(wordline, path)
-		if err != nil {
-			fmt.Println("something err")
-		} else {
-			fmt.Println(food.Word, "write sucessful")
-		}
 	}
 }
 
