@@ -5,9 +5,22 @@ import (
 	"fmt"
 	"os"
 
-	spider "github.com/logindave/dict/spider"
-	goline "github.com/nemith/goline"
+	"github.com/nemith/goline"
+	"github.com/yedamao/dict/spider"
 )
+
+func init() {
+	flag.Usage = usage
+	flag.Parse()
+}
+
+func usage() {
+	fmt.Fprintf(os.Stderr,
+		"usage: dict \n"+
+			"       dict word\n")
+	flag.PrintDefaults()
+	os.Exit(0)
+}
 
 func autoCompletHandler(l *goline.GoLine) (bool, error) {
 	fmt.Println("I can't do that")
@@ -34,28 +47,20 @@ func circle() {
 	}
 }
 
-func usage() {
-	fmt.Fprintf(os.Stderr,
-		"usage: dict \n"+
-			"       dict word\n")
-	flag.PrintDefaults()
-	os.Exit(2)
-}
-
 func find(word string) {
 	food := spider.Spider(word)
 	food.PrintAll()
 }
 
 func main() {
-	flag.Usage = usage
-	flag.Parse()
 
+	// circle mode
 	if len(os.Args) == 1 {
 		circle()
-	} else if os.Args[1][0] != '-' {
-		word := os.Args[1]
-		find(word)
-	} else {
+		return
 	}
+
+	// once mode
+	word := os.Args[1]
+	find(word)
 }
