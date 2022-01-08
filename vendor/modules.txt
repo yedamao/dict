@@ -1,0 +1,3 @@
+# github.com/nemith/goline v0.0.0-20140905212621-523d93318348
+## explicit
+github.com/nemith/goline
