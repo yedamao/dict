@@ -1,12 +1,16 @@
 package main
 
 import (
+	"bufio"
 	"flag"
 	"fmt"
+	"io"
 	"os"
+	"strings"
 
 	"github.com/peterh/liner"
 	"github.com/yedamao/dict/spider"
+	"github.com/yedamao/dict/trie"
 )
 
 func init() {
@@ -28,6 +32,22 @@ func loop() {
 
 	line.SetCtrlCAborts(true)
 
+	trie, err := initCompleter("/usr/share/dict/words")
+	if err != nil {
+		panic(err)
+	}
+
+	line.SetCompleter(func(line string) (c []string) {
+		if len(line) < 3 {
+			return
+		}
+		q := trie.KeyWithPrefix(line)
+		for q.Len() > 0 {
+			c = append(c, q.Remove(q.Back()).(string))
+		}
+		return
+	})
+
 	for {
 		if word, err := line.Prompt("dict:>"); err == nil {
 			find(word)
@@ -44,6 +64,40 @@ func loop() {
 func find(word string) {
 	food := spider.Spider(word)
 	food.PrintAll()
+}
+
+func initCompleter(file string) (*trie.Trie, error) {
+	f, err := os.Open(file)
+	if err != nil {
+		return nil, err
+	}
+
+	trie := trie.New()
+
+	reader := bufio.NewReader(f)
+	for {
+		word, err := reader.ReadString('\n')
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			return nil, err
+		}
+		word = strings.TrimSpace(word)
+		if isLowercaseAlphabet(word) {
+			trie.Put(word, 1)
+		}
+	}
+	return trie, nil
+}
+
+func isLowercaseAlphabet(s string) bool {
+	for _, b := range s {
+		if b < 'a' || b > 'z' {
+			return false
+		}
+	}
+	return true
 }
 
 func main() {
