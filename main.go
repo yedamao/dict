@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/nemith/goline"
+	"github.com/peterh/liner"
 	"github.com/yedamao/dict/spider"
 )
 
@@ -22,28 +22,22 @@ func usage() {
 	os.Exit(0)
 }
 
-func autoCompletHandler(l *goline.GoLine) (bool, error) {
-	fmt.Println("I can't do that")
-	return false, nil
-}
+func loop() {
+	line := liner.NewLiner()
+	defer line.Close()
 
-func circle() {
-	gl := goline.NewGoLine(goline.StringPrompt("dict:>"))
-	const TAB rune = 9
-	gl.AddHandler(TAB, autoCompletHandler)
+	line.SetCtrlCAborts(true)
+
 	for {
-		data, err := gl.Line()
-		if err != nil {
-			if err == goline.UserTerminatedError {
-				fmt.Println("\nBye!")
-				return
-			} else {
-				panic(err)
-			}
+		if word, err := line.Prompt("dict:>"); err == nil {
+			find(word)
+			line.AppendHistory(word)
+		} else if err == liner.ErrPromptAborted {
+			fmt.Println("Bye!")
+			return
+		} else {
+			panic(err)
 		}
-		fmt.Println()
-
-		find(data)
 	}
 }
 
@@ -53,10 +47,9 @@ func find(word string) {
 }
 
 func main() {
-
-	// circle mode
+	// loop mode
 	if len(os.Args) == 1 {
-		circle()
+		loop()
 		return
 	}
 

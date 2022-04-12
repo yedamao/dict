@@ -1,3 +1,10 @@
-# github.com/nemith/goline v0.0.0-20140905212621-523d93318348
+# github.com/mattn/go-runewidth v0.0.3
 ## explicit
-github.com/nemith/goline
+github.com/mattn/go-runewidth
+# github.com/peterh/liner v1.2.2
+## explicit
+github.com/peterh/liner
+# golang.org/x/sys v0.0.0-20211117180635-dee7805ff2e1
+## explicit; go 1.17
+golang.org/x/sys/internal/unsafeheader
+golang.org/x/sys/unix
