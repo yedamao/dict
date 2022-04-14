@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"os/exec"
 	"strings"
 
 	"github.com/peterh/liner"
@@ -24,6 +25,20 @@ func usage() {
 			"       dict word\n")
 	flag.PrintDefaults()
 	os.Exit(0)
+}
+
+const SPEAKER_CMD = "say"
+
+func checkSpeaker() error {
+	if _, err := exec.LookPath(SPEAKER_CMD); err != nil {
+		return err
+	}
+
+	return exec.Command(SPEAKER_CMD, "welcome").Run()
+}
+
+func say(word string) {
+	exec.Command(SPEAKER_CMD, word).Run()
 }
 
 func loop() {
@@ -48,9 +63,15 @@ func loop() {
 		return
 	})
 
+	isSupportSpeaker := checkSpeaker() == nil
+
 	for {
 		if word, err := line.Prompt("dict:>"); err == nil {
-			find(word)
+			food := spider.Spider(word)
+			food.PrintAll()
+			if isSupportSpeaker {
+				say(word)
+			}
 			line.AppendHistory(word)
 		} else if err == liner.ErrPromptAborted {
 			fmt.Println("Bye!")
